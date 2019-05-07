@@ -5,7 +5,7 @@
 # else:
 #   The content of register r2 is moved to register r1.
 ################################################################################
-= MOV
+= MOV   0b01
 
 ################################################################################
 # if DDD == 110:
@@ -14,60 +14,64 @@
 # else:
 #   The content of byte 2 of the instruction is moved to register r.
 ################################################################################
-= MVI
+= MVI_left  0b00
+= MVI_right 0b110
 
 ################################################################################
 # Byte 3 of the instruction is moved into the high-order register (rh)
 # of the register pair rp. Byte 2 of the instruction is moved into
 # the low-order register (rl) of the register pair rp.
 ################################################################################
-= LXI
+= LXI_left  0b00
+= LXI_right 0b0001
 
 ################################################################################
 # The content of the memory location, whose address is specified in byte 2
 # and byte 3 of the instruction, is moved to register A.
 ################################################################################
-= LDA
+= LDA   0b0011_1010
 
 ################################################################################
 # The content of the accumulator is moved to the memory location whose address
 # is specified in byte 2 and byte 3 of the instruction.
 ################################################################################
-= STA
+= STA   0b0011_0010
 
 ################################################################################
 # The content of the memory location, whose address is specified in byte 2
 # and byte 3 of the instruction, is moved to register L. The content of
 # the memory location at the succeeding address is moved to register H.
 ################################################################################
-= LHLD
+= LHLD  0b0010_1010
 
 ################################################################################
 # The content of register L is mvoed to the memory location whose address
 # is specified in byte 2 and byte 3. The content of register H is moved to
 # the succeeding memory location.
 ################################################################################
-= SHLD
+= SHLD  0b0010_0010
 
 ################################################################################
 # The content of the memory location, whose address is in the register pair rp,
 # is moved to register A. Note: only register pairs rp=B (register B and C)
 # or rp=D (registers D and E) may be specified.
 ################################################################################
-= LDAX
+= LDAX_left     0b00
+= LDAX_right    0b1010
 
 ################################################################################
 # The content of register A is moved to the memory location whose address is
 # in the register pair rp. Note: only register pairs rp=B (register B and C)
 # or rp=D (register D and E) may be specified.
 ################################################################################
-= STAX
+= STAX_left     0b00
+= STAX_right    0b0010
 
 ################################################################################
 # The contents of registers H and L are exchanged with the contents of
 # registers D and E.
 ################################################################################
-= XCHG
+= XCHG  0b1110_1011
 
 ################################################################################
 # if SSS == 110:
@@ -78,13 +82,13 @@
 #   The content of register r is added to the content of the accumulator.
 #   The result is placed in the accumulator.
 ################################################################################
-= ADD
+= ADD   0b10_000
 
 ################################################################################
 # The content of the second byte of the instruction os added to the content
 # of the accumulator. The result is placed in the accumulator.
 ################################################################################
-= ADI
+= ADI   0b1100_0110
 
 ################################################################################
 # if SSS == 110:
@@ -95,14 +99,14 @@
 #   The content of register r and the content of the carry bit are added to
 #   the content of the accumulator. The result is placed in the accumulator.
 ################################################################################
-= ADC
+= ADC   0b10_001
 
 ################################################################################
 # The content of the second byte of the instruction and the content of the CY
 # flag are added to the contents of the accumulator. The result is placed
 # in the accumulator.
 ################################################################################
-= ACI
+= ACI   0b1100_1110
 
 ################################################################################
 # if SSS == 110:
@@ -113,13 +117,13 @@
 #   The content if register r is subtracted from the content of the accumulator.
 #   The result is placed in the accumulator.
 ################################################################################
-= SUB
+= SUB   0b10_010
 
 ################################################################################
 # The content of the second byte of the instruction is subtracted from
 # the content of the accumulator. The result if placed in the accumulator.
 ################################################################################
-= SUI
+= SUI   0b1101_0110
 
 ################################################################################
 # if SSS == 110:
@@ -130,14 +134,14 @@
 #   The content of register r and the content of the CY flag are both
 #   subtracted from the accumulator. The result is placed in the accumulator.
 ################################################################################
-= SBB
+= SBB   0b10_011
 
 ################################################################################
 # The contents of the second byte of the instruction and the contents of
 # the CY flag are both subtracted from the accumulator. The result is placed
 # in the accumulator.
 ################################################################################
-= SBI
+= SBI   0b1101_1110
 
 ################################################################################
 # if DDD == 110:
@@ -148,7 +152,8 @@
 #   The content of register r is incremented by one. Note: All condition flags
 #   except CY are affected.
 ################################################################################
-= INR
+= INR_left  0b00
+= INR_right 0b100
 
 ################################################################################
 # if DDD == 110:
@@ -159,19 +164,22 @@
 #   The content of register r is decremented by one. Note: All condition flags
 #   except CY are affected.
 ################################################################################
-= DCR
+= DCR_left  0b00
+= DCR_right 0b101
 
 ################################################################################
 # The content of the register pair rp is incremented by one.
 # Note: No condition flags are affected.
 ################################################################################
-= INX
+= INX_left  0b00
+= INX_right 0b0011
 
 ################################################################################
 # The content of the register pair rp is decremented by one.
 # Note: No condition flags are affected.
 ################################################################################
-= DCX
+= DCX_left  0b00
+= DCX_right 0b1011
 
 ################################################################################
 # The content of the register pair rp is added to the content of the register
@@ -179,7 +187,8 @@
 # the CY flag is affected. It is set if there is a carry out of the double
 # precision add; otherwise it is reset.
 ################################################################################
-= DAD
+= DAD_left  0b00
+= DAD_right 0b1001
 
 ################################################################################
 # The eight-bit number in the accumulator is adjusted to form two four-bit
@@ -195,7 +204,7 @@
 #
 # NOTE: All flags are affected.
 ################################################################################
-= DAA
+= DAA   0b0010_0111
 
 ################################################################################
 # if SSS == 110:
@@ -208,14 +217,14 @@
 #   the accumulator. The result is placed in the accumulator.
 #   The CY flag is cleared.
 ################################################################################
-= ANA
+= ANA   0b10_100
 
 ################################################################################
 # The content of the second byte of the instruction is logically anded with
 # the contents of the accumulator. The result is placed in the accumulator.
 # The CY and AC flags are cleared.
 ################################################################################
-= ANI
+= ANI   0b1110_0110
 
 ################################################################################
 # if SSS == 110:
@@ -227,14 +236,14 @@
 #   the accumulator. The result is placed in the accumulator.
 #   The CY and AC flags are cleared.
 ################################################################################
-= XRA
+= XRA   0b10_101
 
 ################################################################################
 # The content of the second byte of the instruction is exclusive-OR'd with
 # the content of the accumulator. The result is placed in the accumulator.
 # The CY and AC flags are cleared.
 ################################################################################
-= XRI
+= XRI   0b1110_1110
 
 ################################################################################
 # if SSS == 110:
@@ -246,14 +255,14 @@
 #   the accumulator. The result is placed in the accumulator.
 #   The CY and AC flags are cleared.
 ################################################################################
-= ORA
+= ORA   0b10_110
 
 ################################################################################
 # The content of the second byte of the instruction os inclusive-OR'd with
 # the content of the accumulator. The result is placed in the accumulator.
 # The CY and AC flags are cleared.
 ################################################################################
-= ORI
+= ORI   0b1111_0110
 
 ################################################################################
 # if SSS == 110:
@@ -263,7 +272,7 @@
 #   the subtraction. The Z flag is set to 1 if (A) = ((H) (L)).
 #   The CY flag is set to 1 if (A) < ((H) (L)).
 ################################################################################
-= CMP
+= CMP   0b10_111
 
 ################################################################################
 # The content of the second byte of the instruction is subtracted from
@@ -271,21 +280,21 @@
 # The Z flag is set to 1 of (A) = (byte 2). The CY flag is set to 1
 # if (A) < (byte 2).
 ################################################################################
-= CPI
+= CPI   0b1111_1110
 
 ################################################################################
 # The content of the accumulator is rotated left one position. The low order
 # bit and the CY flag are both set to the value shifted out of the high order
 # bit position. Only the CY flag is affected.
 ################################################################################
-= RLC
+= RLC   0b0000_0111
 
 ################################################################################
 # The content of the accumulator is rotated right one position. The high order
 # bit and the CY flags are both set to the value shifted out of the low order
 # bit position. Only the CY flag is affected.
 ################################################################################
-= RRC
+= RRC   0b0000_1111
 
 ################################################################################
 # The content of the accumulator is rotated left one position through
@@ -293,7 +302,7 @@
 # is set to the value shifted out of the high order bit. Only the CY flag
 # is affected.
 ################################################################################
-= RAL
+= RAL   0b0001_0111
 
 ################################################################################
 # The content of the accumulator is rotated right one position through
@@ -301,43 +310,43 @@
 # is set to the value shifted out of the low order bit. Only the CY flag
 # is affected.
 ################################################################################
-= RAR
+= RAR   0b0001_1111
 
 ################################################################################
 # The contents of the accumulator are complemented (zero bits become 1,
 # one bits become 0). No flags are affected.
 ################################################################################
-= CMA
+= CMA   0b0010_1111
 
 ################################################################################
 # The CY flag is complemented. No other flags are affected.
 ################################################################################
-= CMC
+= CMC   0b0011_1111
 
 ################################################################################
 # The CY flag is set to 1. No other flags are affected.
 ################################################################################
-= STC
+= STC   0b0011_0111
 
 ################################################################################
 # Control is transferred to the instruction whose address is specified in
 # byte 3 and byte 2 of the current instruction.
 ################################################################################
-= JMP
+= JMP   0b1100_0011
 
 ################################################################################
 # If specified condition is true, control is transferred to the instruction
 # whose address is specified in byte 3 and byte 2 of the current instruction;
 # otherwise, control continues sequentially.
 ################################################################################
-= JC
-= JNC
-= JZ
-= JNZ
-= JP
-= JM
-= JPE
-= JPO
+= JNZ   0b11_000_010
+= JZ    0b11_001_010
+= JNC   0b11_010_010
+= JC    0b11_011_010
+= JPO   0b11_100_010
+= JPE   0b11_101_010
+= JP    0b11_110_010
+= JM    0b11_111_010
 
 ################################################################################
 # The high-order eight bits of the next instruction address are moved to
@@ -348,21 +357,21 @@
 # the instruction wose address is specified in byte 3 and byte 2 of
 # the current instruction.
 ################################################################################
-= CALL
+= CALL  0b1100_1101
 
 ################################################################################
 # If the specified condition is true, the actions specified in
 # the CALL instruction (see above) are performed;
 # otherwise, control continues sequentially.
 ################################################################################
-= CC
-= CNC
-= CZ
-= CNZ
-= CP
-= CM
-= CPE
-= CPO
+= CNZ   0b11_000_100
+= CZ    0b11_001_100
+= CNC   0b11_010_100
+= CC    0b11_011_100
+= CPO   0b11_100_100
+= CPE   0b11_101_100
+= CP    0b11_110_100
+= CM    0b11_111_100
 
 ################################################################################
 # The content of the memory location whose address is specified in register SP
@@ -371,21 +380,21 @@
 # is moved to the high-order eight bits of register PC. The content of
 # register SP is incremented by 2.
 ################################################################################
-= RET
+= RET   0b1100_1001
 
 ################################################################################
 # If the specified condition is true, the actions specified in
 # the RET instruction (see above) are performed;
 # otherwise, control continues sequentially.
 ################################################################################
-= RC
-= RNC
-= RZ
-= RNZ
-= RP
-= RM
-= RPE
-= RPO
+= RNZ   0b11_000_000
+= RZ    0b11_001_000
+= RNC   0b11_010_000
+= RC    0b11_011_000
+= RPO   0b11_100_000
+= RPE   0b11_101_000
+= RP    0b11_110_000
+= RM    0b11_111_000
 
 ################################################################################
 # The high-order eight bits of the next instruction address are moved to
@@ -395,14 +404,15 @@
 # The content of register SP is decremented by two. Control is transferred to
 # the instruction whose address is eight times the content of NNN.
 ################################################################################
-= RST
+= RST_left  0b11
+= RST_right 0b111
 
 ################################################################################
 # The content of register H is moved to the high-order eight bits of
 # register PC. The content of register L is moved to the low-order eight bits
 # of regiter PC.
 ################################################################################
-= PCHL
+= PCHL  0b1110_1001
 
 ################################################################################
 # if RP == 11:
@@ -419,7 +429,8 @@
 #   register SP. The content of register SP is decremented by 2.
 #   Note: Register pair rp = SP may not be specified.
 ################################################################################
-= PUSH
+= PUSH_left     0b11
+= PUSH_right    0b0101
 
 ################################################################################
 # if RP == 11:
@@ -436,7 +447,8 @@
 #   register of register pair rp. The content of register SP is
 #   incremented by 2. Note: Register pair rp = SP may not be specified.
 ################################################################################
-= POP
+= POP_left  0b11
+= POP_right 0b0001
 
 ################################################################################
 # The content of the L register is exchanged with the content of the memory
@@ -444,44 +456,44 @@
 # The content of the H register is exchanged with the content of the memory
 # location whose address is one more than the content of register SP.
 ################################################################################
-= XTHL
+= XTHL  0b1110_0011
 
 ################################################################################
 # The contents of registers H and L (16 bits) are moved to register SP.
 ################################################################################
-= SPHL
+= SPHL  0b1111_1001
 
 ################################################################################
 # The data placed on the eight bit bi-directional data bus by
 # the specified port is moved to register A.
 ################################################################################
-= IN
+= IN    0b1101_1011
 
 ################################################################################
 # The content of register A is placed on the eight bit bi-directional data bus
 # for transmission to the specified port.
 ################################################################################
-= OUT
+= OUT   0b1101_0011
 
 ################################################################################
 # The interrupt system is enabled following the execution of
 # the next instruction.
 ################################################################################
-= EI
+= EI    0b1111_1011
 
 ################################################################################
 # The interrupt system is disabled immediately following the execution of
 # the DI instruction.
 ################################################################################
-= DI
+= DI    0b1111_0011
 
 ################################################################################
 # The processor is stopped. The registers and flags are unaffected.
 ################################################################################
-= HLT
+= HLT   0b0111_0110
 
 ################################################################################
 # No operation is performed. The registers and flags are unaffected.
 ################################################################################
-= NOP
+= NOP   0b0000_0000
 

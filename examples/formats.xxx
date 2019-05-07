@@ -2,9 +2,100 @@
 . examples/isa.xxx
 
 ### Aliases
+= ddd       0b000
+= sss       0b000
+= r         0b0
+= p         0b0
+= low_addr  0b0000_0000
+= high_addr 0b0000_0000
+= data      0b0000_0000
+= nnn       0b000
+= port      0b0000_0000
 
 ### Data Transfer Group
+MOV         ddd         sss
+MVI_left    ddd         MVI_right
+LXI_left    r           p           LXI_right
+LDA         low_addr    high_addr
+STA         low_addr    high_addr
+LHLD        low_addr    high_addr
+SHLD        low_addr    high_addr
+LDAX_left   r           p           LDAX_right
+STAX_left   r           p           STAX_right
+XCHG
+
 ### Arithmetic Group
+ADD         sss
+ADI         data
+ADC         sss
+ACI         data
+SUB         sss
+SUI         data
+SBB         sss
+SBI         data
+INR_left    ddd         INR_right
+DCR_left    ddd         DCR_right
+INX_left    r           p           INX_right
+DCX_left    r           p           DCX_right
+DAD_left    r           p           DAD_right
+DAA
+
 ### Logical Group
+ANA         sss
+ANI         data
+XRA         sss
+XRI         data
+ORA         sss
+ORI         data
+CMP         sss
+CPI         data
+RLC
+RRC
+RAL
+RAR
+CMA
+CMC
+STC
+
 ### Branch Group
+JMP         low_addr    high_addr
+JNZ         low_addr    high_addr
+JZ          low_addr    high_addr
+JNC         low_addr    high_addr
+JC          low_addr    high_addr
+JPO         low_addr    high_addr
+JPE         low_addr    high_addr
+JP          low_addr    high_addr
+JM          low_addr    high_addr
+CALL        low_addr    high_addr
+CNZ         low_addr    high_addr
+CZ          low_addr    high_addr
+CNC         low_addr    high_addr
+CC          low_addr    high_addr
+CPO         low_addr    high_addr
+CPE         low_addr    high_addr
+CP          low_addr    high_addr
+CM          low_addr    high_addr
+RET
+RNZ
+RZ
+RNC
+RC
+RPO
+RPE
+RP
+RM
+RST_left    nnn         RST_right
+PCHL
+
 ### Stack, I/O and Machine Control Group
+PUSH_left   r           p           PUSH_right
+POP_left    r           p           POP_right
+XTHL
+SPHL
+IN          port
+OUT         port
+EI
+DI
+HLT
+NOP
